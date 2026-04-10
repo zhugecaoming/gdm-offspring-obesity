@@ -1,0 +1,49 @@
+---
+title: "GDM与子代肥胖风险分析"
+author: "杨萌"
+format:
+  html:
+    toc: true
+execute:
+  echo: true
+  warning: false
+  message: false
+---
+
+## 研究问题
+
+评估母亲妊娠期糖尿病（GDM）与子代7岁肥胖风险的关联。
+
+## 读取数据
+
+```{r}
+library(readr)
+library(dplyr)
+dat <- read_csv("data_derived/analysis_dataset.csv")
+dim(dat)
+```
+
+## 样本基本情况
+
+```{r}
+table(dat$gdm)
+table(dat$child_obesity)
+summary(dat$maternal_age)
+summary(dat$prepreg_bmi)
+```
+
+## 主分析
+
+```{r}
+library(broom)
+fit_adj <- glm(
+  child_obesity ~ gdm + maternal_age + prepreg_bmi + parity + child_sex,
+  data = dat,
+  family = binomial()
+)
+tidy(fit_adj, exponentiate = TRUE, conf.int = TRUE)
+```
+
+## 结果解释
+
+在调整 maternal age、prepregnancy BMI、parity 和 child sex 后，GDM 与子代肥胖风险的关联见上表。

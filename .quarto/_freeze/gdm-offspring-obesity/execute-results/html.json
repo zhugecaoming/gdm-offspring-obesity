@@ -1,0 +1,15 @@
+{
+  "hash": "8c6fbbf7e9a381f74a1c323466d50113",
+  "result": {
+    "engine": "knitr",
+    "markdown": "---\ntitle: \"GDM与子代肥胖风险分析\"\nauthor: \"杨萌\"\nformat:\n  html:\n    toc: true\nexecute:\n  echo: true\n  warning: false\n  message: false\n---\n\n## 研究问题\n\n评估母亲妊娠期糖尿病（GDM）与子代7岁肥胖风险的关联。\n\n## 读取数据\n\n\n::: {.cell}\n\n```{.r .cell-code}\nlibrary(readr)\nlibrary(dplyr)\ndat <- read_csv(\"data_derived/analysis_dataset.csv\")\ndim(dat)\n```\n\n::: {.cell-output .cell-output-stdout}\n\n```\n[1] 2000   11\n```\n\n\n:::\n:::\n\n\n## 样本基本情况\n\n\n::: {.cell}\n\n```{.r .cell-code}\ntable(dat$gdm)\n```\n\n::: {.cell-output .cell-output-stdout}\n\n```\n\n   0    1 \n1883  117 \n```\n\n\n:::\n\n```{.r .cell-code}\ntable(dat$child_obesity)\n```\n\n::: {.cell-output .cell-output-stdout}\n\n```\n\n   0    1 \n1837  163 \n```\n\n\n:::\n\n```{.r .cell-code}\nsummary(dat$maternal_age)\n```\n\n::: {.cell-output .cell-output-stdout}\n\n```\n   Min. 1st Qu.  Median    Mean 3rd Qu.    Max. \n  18.00   27.30   30.30   30.38   33.40   45.00 \n```\n\n\n:::\n\n```{.r .cell-code}\nsummary(dat$prepreg_bmi)\n```\n\n::: {.cell-output .cell-output-stdout}\n\n```\n   Min. 1st Qu.  Median    Mean 3rd Qu.    Max. \n  15.50   20.90   23.60   23.85   26.60   41.40 \n```\n\n\n:::\n:::\n\n\n## 主分析\n\n\n::: {.cell}\n\n```{.r .cell-code}\nlibrary(broom)\nfit_adj <- glm(\n  child_obesity ~ gdm + maternal_age + prepreg_bmi + parity + child_sex,\n  data = dat,\n  family = binomial()\n)\ntidy(fit_adj, exponentiate = TRUE, conf.int = TRUE)\n```\n\n::: {.cell-output .cell-output-stdout}\n\n```\n# A tibble: 6 × 7\n  term          estimate std.error statistic  p.value conf.low conf.high\n  <chr>            <dbl>     <dbl>     <dbl>    <dbl>    <dbl>     <dbl>\n1 (Intercept)    0.00169    0.775     -8.24  1.75e-16 0.000362   0.00757\n2 gdm            2.11       0.263      2.85  4.42e- 3 1.23       3.47   \n3 maternal_age   1.04       0.0187     2.34  1.92e- 2 1.01       1.08   \n4 prepreg_bmi    1.10       0.0187     5.15  2.58e- 7 1.06       1.14   \n5 parity         1.03       0.0910     0.341 7.33e- 1 0.860      1.23   \n6 child_sexMale  1.34       0.167      1.73  8.39e- 2 0.964      1.86   \n```\n\n\n:::\n:::\n\n\n## 结果解释\n\n在调整 maternal age、prepregnancy BMI、parity 和 child sex 后，GDM 与子代肥胖风险的关联见上表。\n",
+    "supporting": [],
+    "filters": [
+      "rmarkdown/pagebreak.lua"
+    ],
+    "includes": {},
+    "engineDependencies": {},
+    "preserve": {},
+    "postProcess": true
+  }
+}

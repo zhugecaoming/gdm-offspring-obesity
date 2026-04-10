@@ -1,0 +1,7 @@
+.Rhistory
+.RData
+.Rproj.user
+*.html
+rendered/
+data_derived/
+output/
